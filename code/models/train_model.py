@@ -1,4 +1,3 @@
-"""Stage 2: Model Engineering — features, tuning, evaluation, MLflow logging, packaging."""
 import json
 from pathlib import Path
 
@@ -19,7 +18,6 @@ MODELS_DIR = PROJECT_DIR / "models"
 MODEL_FILE = MODELS_DIR / "model.pkl"
 METRICS_FILE = MODELS_DIR / "metrics.json"
 
-# MLflow tracking: SQLite backend (the plain ./mlruns file store is deprecated in MLflow 3)
 MLFLOW_DB = PROJECT_DIR / "mlflow.db"
 ARTIFACTS_DIR = PROJECT_DIR / "mlartifacts"
 EXPERIMENT_NAME = "diabetes-prediction"
@@ -38,7 +36,6 @@ PARAM_GRID = {
 
 
 def build_pipeline() -> Pipeline:
-    """Feature engineering (pairwise interaction features) + RandomForest in one pipeline."""
     return Pipeline([
         ("interactions", PolynomialFeatures(degree=2, interaction_only=True,
                                              include_bias=False)),
@@ -47,7 +44,6 @@ def build_pipeline() -> Pipeline:
 
 
 def tune_model(X_train, y_train) -> GridSearchCV:
-    """Hyperparameter tuning with 5-fold stratified cross-validation."""
     search = GridSearchCV(
         estimator=build_pipeline(),
         param_grid=PARAM_GRID,
@@ -62,7 +58,6 @@ def tune_model(X_train, y_train) -> GridSearchCV:
 
 
 def setup_mlflow() -> str:
-    """Configure the SQLite tracking store; create the experiment if needed."""
     mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
     client = mlflow.MlflowClient()
     experiment = client.get_experiment_by_name(EXPERIMENT_NAME)
@@ -80,7 +75,7 @@ def main() -> None:
     X_test, y_test = test[FEATURES], test[TARGET]
 
     search = tune_model(X_train, y_train)
-    model = search.best_estimator_          # refit on the full training data
+    model = search.best_estimator_
 
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test)[:, 1]

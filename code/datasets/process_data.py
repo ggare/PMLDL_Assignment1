@@ -23,7 +23,7 @@ def load_data() -> pd.DataFrame:
             "It is committed to the repository (data/raw/pima-indians-diabetes.csv)."
         )
     df = pd.read_csv(RAW_FILE)
-    if not set(COLUMNS).issubset(df.columns):        # file without a header
+    if not set(COLUMNS).issubset(df.columns):
         df = pd.read_csv(RAW_FILE, names=COLUMNS)
     print(f"Loaded {len(df)} rows x {df.shape[1]} columns from {RAW_FILE.name}")
     return df
