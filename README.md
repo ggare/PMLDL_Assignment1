@@ -80,12 +80,10 @@ pip install "apache-airflow==2.10.5" \
 Start Airflow (every session):
 
 ```bash
-./start_airflow.sh
-# or manually:
-# source airflow-venv/bin/activate
-# export AIRFLOW_HOME="$(pwd)/services/airflow"
-# export PIPELINE_PYTHON="$(pwd)/venv/bin/python"
-# airflow standalone
+source airflow-venv/bin/activate
+export AIRFLOW_HOME="$(pwd)/services/airflow"
+export PIPELINE_PYTHON="$(pwd)/venv/bin/python"
+airflow standalone
 ```
 
 Open http://localhost:8080 (login: `admin`, password in `services/airflow/standalone_admin_password.txt`),
