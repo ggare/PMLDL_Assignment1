@@ -22,7 +22,7 @@ MLFLOW_DB = PROJECT_DIR / "mlflow.db"
 ARTIFACTS_DIR = PROJECT_DIR / "mlartifacts"
 EXPERIMENT_NAME = "diabetes-prediction"
 
-TARGET = "Outcome"
+TARGET = "Class"
 FEATURES = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness",
             "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"]
 RANDOM_STATE = 42
